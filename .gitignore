@@ -1,0 +1,28 @@
+# Ignore all files by default, but scan all directories
+*
+!*/
+
+# C/C++ source files
+!*.c
+!*.cpp
+!*.h
+
+# C# source files
+!*.cs
+!*.Target.cs
+
+#编辑器资产
+/Content/__ExternalActors__
+/Content/__ExternalObjects__
+!*.uasset
+!*.umap
+!*.fbx
+!ZombieRPG.uproject
+
+#Config，添加ini文件，但是取消扫描根目录Saved文件夹下的
+!*.ini
+/Saved
+
+#杂项
+!.gitignore
+Intermediate/
