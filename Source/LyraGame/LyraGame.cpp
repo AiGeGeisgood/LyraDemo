@@ -3,4 +3,18 @@
 #include "LyraGame.h"
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, LyraGame, "LyraGame" );
+
+
+
+void FLyraGameModule::StartupModule()
+{
+	FDefaultGameModuleImpl::StartupModule();
+}
+
+void FLyraGameModule::ShutdownModule()
+{
+	FDefaultGameModuleImpl::ShutdownModule();
+}
+
+
+IMPLEMENT_PRIMARY_GAME_MODULE(FLyraGameModule, LyraGame, "LyraGame");
