@@ -1,6 +1,17 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "Lyra.h"
+#include "LyraEditor.h"
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, Lyra, "Lyra" );
+
+void FLyraEditorModule::StartupModule()
+{
+	FDefaultGameModuleImpl::StartupModule();
+}
+
+void FLyraEditorModule::ShutdownModule()
+{
+	FDefaultGameModuleImpl::ShutdownModule();
+}
+
+IMPLEMENT_MODULE(FLyraEditorModule, LyraEditor);

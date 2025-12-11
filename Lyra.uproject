@@ -5,8 +5,13 @@
 	"Description": "",
 	"Modules": [
 		{
-			"Name": "Lyra",
+			"Name": "LyraGame",
 			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "LyraEditor",
+			"Type": "Editor",
 			"LoadingPhase": "Default"
 		}
 	],
