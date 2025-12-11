@@ -12,5 +12,9 @@ public class LyraServerTarget : TargetRules
 		ExtraModuleNames.Add("LyraGame");
 		
 		LyraGameTarget.ApplySharedLyraTargetSettings(this);
+		
+		// Whether to turn on checks (asserts) for test/shipping builds.
+		// 是否在测试版/发布版中开启检查（断言）功能。
+		bUseChecksInShipping = true;
 	}
 }
