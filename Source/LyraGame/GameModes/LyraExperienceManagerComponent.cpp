@@ -193,7 +193,8 @@ bool ULyraExperienceManagerComponent::ShouldShowLoadingScreen(FString& OutReason
 
 void ULyraExperienceManagerComponent::SetCurrentExperience(FPrimaryAssetId ExperienceId)
 {
-	UAssetManager& AssetManager = UAssetManager::Get();
+	
+	ULyraAssetManager& AssetManager = ULyraAssetManager::Get();
 
 	/** 获取指定主资产类型及名称的 FSoftObjectPath，若未找到则返回无效值 */
 	FSoftObjectPath AssetPath = AssetManager.GetPrimaryAssetPath(ExperienceId);
@@ -300,7 +301,7 @@ void ULyraExperienceManagerComponent::StartExperienceLoad()
 	//切换到正在加载的状态
 	LoadState = ELyraExperienceLoadState::Loading;
 
-	UAssetManager& AssetManager = UAssetManager::Get();
+	ULyraAssetManager& AssetManager = ULyraAssetManager::Get();
 
 	//需要通过Bundle进行加载处理的资产
 	TSet<FPrimaryAssetId> BundleAssetList;
@@ -327,8 +328,7 @@ void ULyraExperienceManagerComponent::StartExperienceLoad()
 	TArray<FName> BundlesToLoad;
 
 	// 这里添加了资产管理类里面的一个全局变量,它是一个Bundle规则.
-	// BundlesToLoad.Add(FLyraBundles::Equipped);
-	BundlesToLoad.Add(TEXT("Equipped"));
+	BundlesToLoad.Add(FLyraBundles::Equipped);
 
 
 	//@TODO: Centralize this client/server stuff into the LyraAssetManager
