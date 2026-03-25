@@ -35,7 +35,7 @@ public:
 	 * 
 	 */
 	// 因为这里的返回值不一样 所以不是override
-	 UE_API ALyraPlayerController* GetPrimaryPlayerController() const;
+	 // UE_API ALyraPlayerController* GetPrimaryPlayerController() const;
 
 
 
