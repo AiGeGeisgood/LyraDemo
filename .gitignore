@@ -18,6 +18,7 @@
 !*.umap
 !*.fbx
 !ZombieRPG.uproject
+!*.uplugin
 
 #Config，添加ini文件，但是取消扫描根目录Saved文件夹下的
 !*.ini
