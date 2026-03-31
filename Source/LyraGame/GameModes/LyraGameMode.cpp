@@ -196,20 +196,20 @@ void ALyraGameMode::HandleStartingNewPlayer_Implementation(APlayerController* Ne
 
 AActor* ALyraGameMode::ChoosePlayerStart_Implementation(AController* Player)
 {
-	// if (ULyraPlayerSpawningManagerComponent* PlayerSpawningComponent = GameState->FindComponentByClass<ULyraPlayerSpawningManagerComponent>())
-	// {
-	// 	return PlayerSpawningComponent->ChoosePlayerStart(Player);
-	// }
+	if (ULyraPlayerSpawningManagerComponent* PlayerSpawningComponent = GameState->FindComponentByClass<ULyraPlayerSpawningManagerComponent>())
+	{
+		return PlayerSpawningComponent->ChoosePlayerStart(Player);
+	}
 	
 	return Super::ChoosePlayerStart_Implementation(Player);
 }
 
 void ALyraGameMode::FinishRestartPlayer(AController* NewPlayer, const FRotator& StartRotation)
 {
-	// if (ULyraPlayerSpawningManagerComponent* PlayerSpawningComponent = GameState->FindComponentByClass<ULyraPlayerSpawningManagerComponent>())
-	// {
-	// 	PlayerSpawningComponent->FinishRestartPlayer(NewPlayer, StartRotation);
-	// }
+	if (ULyraPlayerSpawningManagerComponent* PlayerSpawningComponent = GameState->FindComponentByClass<ULyraPlayerSpawningManagerComponent>())
+	{
+		PlayerSpawningComponent->FinishRestartPlayer(NewPlayer, StartRotation);
+	}
 
 	Super::FinishRestartPlayer(NewPlayer, StartRotation);
 
@@ -339,10 +339,10 @@ bool ALyraGameMode::ControllerCanRestart(AController* Controller)
 		}
 	}		
 
-	// if (ULyraPlayerSpawningManagerComponent* PlayerSpawningComponent = GameState->FindComponentByClass<ULyraPlayerSpawningManagerComponent>())
-	// {
-	// 	return PlayerSpawningComponent->ControllerCanRestart(Controller);
-	// }
+	if (ULyraPlayerSpawningManagerComponent* PlayerSpawningComponent = GameState->FindComponentByClass<ULyraPlayerSpawningManagerComponent>())
+	{
+		return PlayerSpawningComponent->ControllerCanRestart(Controller);
+	}
 
 	return true;
 	
@@ -449,7 +449,7 @@ void ALyraGameMode::HandleMatchAssignmentIfNotExpectingOne()
 	// 3.开发者设置（仅适用于 PIE）
 	if (!ExperienceId.IsValid() && World->IsPlayInEditor())
 	{
-		// ExperienceId = GetDefault<ULyraDeveloperSettings>()->ExperienceOverride;
+		ExperienceId = GetDefault<ULyraDeveloperSettings>()->ExperienceOverride;
 		ExperienceIdSource = TEXT("DeveloperSettings");
 	}
 	
@@ -556,7 +556,7 @@ bool ALyraGameMode::TryDedicatedServerLogin()
 
 void ALyraGameMode::HostDedicatedServerMatch(ECommonSessionOnlineMode OnlineMode)
 {
-	// FPrimaryAssetType UserExperienceType = ULyraUserFacingExperienceDefinition::StaticClass()->GetFName();
+	FPrimaryAssetType UserExperienceType = ULyraUserFacingExperienceDefinition::StaticClass()->GetFName();
 
 	// Figure out what UserFacingExperience to load
 	// 确定要加载的用户可见体验内容
@@ -572,7 +572,7 @@ void ALyraGameMode::HostDedicatedServerMatch(ECommonSessionOnlineMode OnlineMode
 		
 		if (!UserExperienceId.PrimaryAssetType.IsValid())
 		{
-			// UserExperienceId = FPrimaryAssetId(FPrimaryAssetType(UserExperienceType), FName(*UserExperienceFromCommandLine));
+			UserExperienceId = FPrimaryAssetId(FPrimaryAssetType(UserExperienceType), FName(*UserExperienceFromCommandLine));
 		}
 
 	}
@@ -580,76 +580,76 @@ void ALyraGameMode::HostDedicatedServerMatch(ECommonSessionOnlineMode OnlineMode
 	// Search for the matching experience, it's fine to force load them because we're in dedicated server startup
 	// 寻找匹配的体验内容，可以强制加载这些内容，因为我们正处于专用服务器启动阶段。
 	ULyraAssetManager& AssetManager = ULyraAssetManager::Get();
-	// TSharedPtr<FStreamableHandle> Handle = AssetManager.LoadPrimaryAssetsWithType(UserExperienceType);
+	TSharedPtr<FStreamableHandle> Handle = AssetManager.LoadPrimaryAssetsWithType(UserExperienceType);
 
-	// if (ensure(Handle.IsValid()))
-	// {
-	// 	Handle->WaitUntilComplete();
-	// }
+	if (ensure(Handle.IsValid()))
+	{
+		Handle->WaitUntilComplete();
+	}
 
 	// 全部加载进来
 	TArray<UObject*> UserExperiences;
-	// AssetManager.GetPrimaryAssetObjectList(UserExperienceType, UserExperiences);
+	AssetManager.GetPrimaryAssetObjectList(UserExperienceType, UserExperiences);
 	
-	// ULyraUserFacingExperienceDefinition* FoundExperience = nullptr;
-	// ULyraUserFacingExperienceDefinition* DefaultExperience = nullptr;
+	ULyraUserFacingExperienceDefinition* FoundExperience = nullptr;
+	ULyraUserFacingExperienceDefinition* DefaultExperience = nullptr;
 	
 	// 寻找指定的和默认的
 	for (UObject* Object : UserExperiences)
 	{
-		// ULyraUserFacingExperienceDefinition* UserExperience = Cast<ULyraUserFacingExperienceDefinition>(Object);
-		// if (ensure(UserExperience))
-		// {
-		//
-		// 	if (UserExperience->GetPrimaryAssetId() == UserExperienceId)
-		// 	{
-		// 		FoundExperience = UserExperience;
-		// 		break;
-		// 	}
-		//
-		// 	if (UserExperience->bIsDefaultExperience && DefaultExperience == nullptr)
-		// 	{
-		// 		DefaultExperience = UserExperience;
-		// 	}
-		// 	
-		// }
+		ULyraUserFacingExperienceDefinition* UserExperience = Cast<ULyraUserFacingExperienceDefinition>(Object);
+		if (ensure(UserExperience))
+		{
+		
+			if (UserExperience->GetPrimaryAssetId() == UserExperienceId)
+			{
+				FoundExperience = UserExperience;
+				break;
+			}
+		
+			if (UserExperience->bIsDefaultExperience && DefaultExperience == nullptr)
+			{
+				DefaultExperience = UserExperience;
+			}
+			
+		}
 	
 	}
 
 	// 如果指定的没有,那就使用默认的
-	// if (FoundExperience == nullptr)
-	// {
-	// 	FoundExperience = DefaultExperience;
-	// }
-	//
-	// UGameInstance* GameInstance = GetGameInstance();
-	//
-	// if (ensure(FoundExperience && GameInstance))
-	// {
-	//
-	// 	// Actually host the game
-	// 	// 实际上举办比赛
-	// 	
-	// 	UCommonSession_HostSessionRequest* HostRequest = FoundExperience->CreateHostingRequest(this);
-	//
-	// 	
-	// 	if (ensure(HostRequest))
-	// 	{
-	// 		//线上模式,所以是专属服务器
-	// 		HostRequest->OnlineMode = OnlineMode;
-	//
-	// 		// TODO override other parameters?
-	// 		// 请务必修改其他参数吗？
-	//
-	// 		UCommonSessionSubsystem* SessionSubsystem = GameInstance->GetSubsystem<UCommonSessionSubsystem>();
-	// 		SessionSubsystem->HostSession(nullptr, HostRequest);
-	// 		
-	// 		// This will handle the map travel
-	// 		// 这将负责地图上的移动操作
-	// 	}
-	//
-	// 	
-	// }
+	if (FoundExperience == nullptr)
+	{
+		FoundExperience = DefaultExperience;
+	}
+	
+	UGameInstance* GameInstance = GetGameInstance();
+	
+	if (ensure(FoundExperience && GameInstance))
+	{
+	
+		// Actually host the game
+		// 实际上举办比赛
+		
+		UCommonSession_HostSessionRequest* HostRequest = FoundExperience->CreateHostingRequest(this);
+	
+		
+		if (ensure(HostRequest))
+		{
+			//线上模式,所以是专属服务器
+			HostRequest->OnlineMode = OnlineMode;
+	
+			// TODO override other parameters?
+			// 请务必修改其他参数吗？
+	
+			UCommonSessionSubsystem* SessionSubsystem = GameInstance->GetSubsystem<UCommonSessionSubsystem>();
+			SessionSubsystem->HostSession(nullptr, HostRequest);
+			
+			// This will handle the map travel
+			// 这将负责地图上的移动操作
+		}
+	
+		
+	}
 	
 	
 	
