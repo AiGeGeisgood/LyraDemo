@@ -26,9 +26,9 @@ ALyraGameState::ALyraGameState(const FObjectInitializer& ObjectInitializer)
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
-	// AbilitySystemComponent = ObjectInitializer.CreateDefaultSubobject<ULyraAbilitySystemComponent>(this, TEXT("AbilitySystemComponent"));
-	// AbilitySystemComponent->SetIsReplicated(true);
-	// AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
+	AbilitySystemComponent = ObjectInitializer.CreateDefaultSubobject<ULyraAbilitySystemComponent>(this, TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	
 	
 	ExperienceManagerComponent = CreateDefaultSubobject<ULyraExperienceManagerComponent>(TEXT("ExperienceManagerComponent"));
@@ -46,10 +46,10 @@ void ALyraGameState::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	// check(AbilitySystemComponent);
+	check(AbilitySystemComponent);
 
 	// 初始化ASC的组件信息
-	// AbilitySystemComponent->InitAbilityActorInfo(/*Owner=*/ this, /*Avatar=*/ this);
+	AbilitySystemComponent->InitAbilityActorInfo(/*Owner=*/ this, /*Avatar=*/ this);
 }
 
 void ALyraGameState::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -79,8 +79,7 @@ void ALyraGameState::Tick(float DeltaSeconds)
 
 UAbilitySystemComponent* ALyraGameState::GetAbilitySystemComponent() const
 {
-	// return AbilitySystemComponent;
-	return nullptr;
+	return AbilitySystemComponent;
 }
 
 
@@ -117,19 +116,19 @@ void ALyraGameState::SeamlessTravelTransitionCheckpoint(bool bToTransitionMap)
 	
 }
 
-// void ALyraGameState::MulticastMessageToClients_Implementation(const FLyraVerbMessage Message)
-// {
-// 	if (GetNetMode() == NM_Client)
-// 	{
-// 		UGameplayMessageSubsystem::Get(this).BroadcastMessage(Message.Verb, Message);
-//
-// 	}
-// }
+void ALyraGameState::MulticastMessageToClients_Implementation(const FLyraVerbMessage Message)
+{
+	if (GetNetMode() == NM_Client)
+	{
+		UGameplayMessageSubsystem::Get(this).BroadcastMessage(Message.Verb, Message);
 
-// void ALyraGameState::MulticastReliableMessageToClients_Implementation(const FLyraVerbMessage Message)
-// {
-// 	MulticastMessageToClients_Implementation(Message);
-// }
+	}
+}
+
+void ALyraGameState::MulticastReliableMessageToClients_Implementation(const FLyraVerbMessage Message)
+{
+	MulticastMessageToClients_Implementation(Message);
+}
 
 float ALyraGameState::GetServerFPS() const
 {

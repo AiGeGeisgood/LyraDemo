@@ -62,8 +62,8 @@ public:
 	
 	// Gets the ability system component used for game wide things
 	// 获取用于全局游戏操作的能力系统组件
-	// UFUNCTION(BlueprintCallable, Category = "Lyra|GameState")
-	// ULyraAbilitySystemComponent* GetLyraAbilitySystemComponent() const { return AbilitySystemComponent; }
+	UFUNCTION(BlueprintCallable, Category = "Lyra|GameState")
+	ULyraAbilitySystemComponent* GetLyraAbilitySystemComponent() const { return AbilitySystemComponent; }
 
 	
 
@@ -89,16 +89,16 @@ public:
 	// 发送一条消息，告知所有客户端（很可能）都会接收到该消息
 	// （仅用于客户端通知，例如淘汰通知、服务器加入消息等，这类消息可以丢失）
 	// 服务器调用,所有客户端执行
-	// UFUNCTION(NetMulticast, Unreliable, BlueprintCallable, Category = "Lyra|GameState")
-	// UE_API void MulticastMessageToClients(const FLyraVerbMessage Message);
+	UFUNCTION(NetMulticast, Unreliable, BlueprintCallable, Category = "Lyra|GameState")
+	UE_API void MulticastMessageToClients(const FLyraVerbMessage Message);
 
 	// Send a message that all clients will be guaranteed to get
 	// (use only for client notifications that cannot handle being lost)
 	// 发送一条消息，确保所有客户端都能接收到该消息
 	// （仅用于那些无法承受消息丢失情况的客户端通知）
 	// 服务器调用 所有客户端执行
-	// UFUNCTION(NetMulticast, Reliable, BlueprintCallable, Category = "Lyra|GameState")
-	// UE_API void MulticastReliableMessageToClients(const FLyraVerbMessage Message);
+	UFUNCTION(NetMulticast, Reliable, BlueprintCallable, Category = "Lyra|GameState")
+	UE_API void MulticastReliableMessageToClients(const FLyraVerbMessage Message);
 
 
 	
@@ -137,8 +137,8 @@ private:
 
 	// The ability system component subobject for game-wide things (primarily gameplay cues)
 	// 用于游戏范围内各类事物（主要是游戏提示）的能力系统子对象
-	// UPROPERTY(VisibleAnywhere, Category = "Lyra|GameState")
-	// TObjectPtr<ULyraAbilitySystemComponent> AbilitySystemComponent;
+	UPROPERTY(VisibleAnywhere, Category = "Lyra|GameState")
+	TObjectPtr<ULyraAbilitySystemComponent> AbilitySystemComponent;
 
 
 
