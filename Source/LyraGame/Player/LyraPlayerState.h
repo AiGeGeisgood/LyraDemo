@@ -58,7 +58,7 @@ enum class ELyraPlayerConnectionType : uint8
  *	本项目所使用的基础玩家状态类。
  */
 UCLASS(MinimalAPI, Config = Game)
-class ALyraPlayerState : public AModularPlayerState, public IAbilitySystemInterface//,  public ILyraTeamAgentInterface
+class ALyraPlayerState : public AModularPlayerState, public IAbilitySystemInterface,  public ILyraTeamAgentInterface
 {
 	GENERATED_BODY()
 
@@ -81,8 +81,8 @@ public:
 	UE_API ALyraPlayerController* GetLyraPlayerController() const;
 
 	// 获取 LyraASC 该组件通过构造函数创建
-	// UFUNCTION(BlueprintCallable, Category = "Lyra|PlayerState")
-	// ULyraAbilitySystemComponent* GetLyraAbilitySystemComponent() const { return AbilitySystemComponent; }
+	UFUNCTION(BlueprintCallable, Category = "Lyra|PlayerState")
+	ULyraAbilitySystemComponent* GetLyraAbilitySystemComponent() const { return AbilitySystemComponent; }
 	// 这是IAbilitySystemInterface的重写方法 返回成员变量即可
 	UE_API virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
@@ -219,22 +219,22 @@ private:
 protected:
 
 	// 暂无功能
-	// UFUNCTION()
-	// UE_API void OnRep_PawnData();
+	UFUNCTION()
+	UE_API void OnRep_PawnData();
 	
 protected:
 
 	// 客户端这个变量需要从网络同步过来
-	// UPROPERTY(ReplicatedUsing = OnRep_PawnData)
-	// TObjectPtr<const ULyraPawnData> PawnData;
+	UPROPERTY(ReplicatedUsing = OnRep_PawnData)
+	TObjectPtr<const ULyraPawnData> PawnData;
 	
 private:
 
 	
 	// The ability system component sub-object used by player characters.
 	// 用于玩家角色的“能力系统”子组件。
-	// UPROPERTY(VisibleAnywhere, Category = "Lyra|PlayerState")
-	// TObjectPtr<ULyraAbilitySystemComponent> AbilitySystemComponent;
+	UPROPERTY(VisibleAnywhere, Category = "Lyra|PlayerState")
+	TObjectPtr<ULyraAbilitySystemComponent> AbilitySystemComponent;
 
 	
 	// Health attribute set used by this actor.
