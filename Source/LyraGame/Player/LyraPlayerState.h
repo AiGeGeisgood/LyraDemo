@@ -87,8 +87,8 @@ public:
 	UE_API virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	// 获取PawnData
-	// template <class T>
-	// const T* GetPawnData() const { return Cast<T>(PawnData); }
+	template <class T>
+	const T* GetPawnData() const { return Cast<T>(PawnData); }
 
 	// 在[服务器]得Experience加载完成之后,设置PawnData,然后通过网络同步到客户端
 	UE_API void SetPawnData(const ULyraPawnData* InPawnData);
@@ -113,25 +113,25 @@ public:
 	// UE_API virtual void ClientInitialize(AController* C) override;
 
 	/** 复制需要保存在非活动玩家状态中的属性 */
-	// UE_API virtual void CopyProperties(APlayerState* PlayerState) override;
+	UE_API virtual void CopyProperties(APlayerState* PlayerState) override;
 	
 	/** 当拥有该玩家状态的玩家断开连接时，服务器会调用此方法，通常情况下此方法会销毁该玩家状态 */
 	// 计划添加到体验中 是否开启支持自动摧毁玩家状态
-	// UE_API virtual void OnDeactivated() override;
+	UE_API virtual void OnDeactivated() override;
 	
 	/** 当拥有该玩家状态的玩家重新连接后，服务器会调用此函数，并将此玩家状态添加到活跃玩家数组中 */
 	// 切换到玩家链接为活跃状态
-	// UE_API virtual void OnReactivated() override;
+	UE_API virtual void OnReactivated() override;
 	
 	//~End of APlayerState interface
 
 	
 	//~ILyraTeamAgentInterface interface
 	// 设置队伍ID
-	// UE_API virtual void SetGenericTeamId(const FGenericTeamId& NewTeamID) override;
-	// // 获取队伍ID
-	// UE_API virtual FGenericTeamId GetGenericTeamId() const override;
-	// UE_API virtual FOnLyraTeamIndexChangedDelegate* GetOnTeamIndexChangedDelegate() override;
+	UE_API virtual void SetGenericTeamId(const FGenericTeamId& NewTeamID) override;
+	// 获取队伍ID
+	UE_API virtual FGenericTeamId GetGenericTeamId() const override;
+	UE_API virtual FOnLyraTeamIndexChangedDelegate* GetOnTeamIndexChangedDelegate() override;
 	//~End of ILyraTeamAgentInterface interface
 
 	static UE_API const FName NAME_LyraAbilityReady;
@@ -139,7 +139,7 @@ public:
  
 
 	// 设置玩家链接类型
-	// UE_API void SetPlayerConnectionType(ELyraPlayerConnectionType NewType);
+	UE_API void SetPlayerConnectionType(ELyraPlayerConnectionType NewType);
 	// 获取玩家链接类型
 	ELyraPlayerConnectionType GetPlayerConnectionType() const { return MyPlayerConnectionType; }
 
@@ -154,13 +154,13 @@ public:
 
 	/** Returns the Team ID of the team the player belongs to. */
 	/** 返回玩家所属团队的团队 ID 。*/
-	// UFUNCTION(BlueprintCallable)
-	// int32 GetTeamId() const
-	// {
-	// 	return GenericTeamIdToInteger(MyTeamID);
-	// }
+	UFUNCTION(BlueprintCallable)
+	int32 GetTeamId() const
+	{
+		return GenericTeamIdToInteger(MyTeamID);
+	}
 	// 设置小队编号
-	// UE_API void SetSquadID(int32 NewSquadID);
+	UE_API void SetSquadID(int32 NewSquadID);
 
 	
 
@@ -195,16 +195,16 @@ public:
 	 *
 	 * 服务器调用,客户端执行
 	 */
-	// UFUNCTION(Client, Unreliable, BlueprintCallable, Category = "Lyra|PlayerState")
-	// UE_API void ClientBroadcastMessage(const FLyraVerbMessage Message);
+	UFUNCTION(Client, Unreliable, BlueprintCallable, Category = "Lyra|PlayerState")
+	UE_API void ClientBroadcastMessage(const FLyraVerbMessage Message);
 
 	// Gets the replicated view rotation of this player, used for spectating
 	// 获取此玩家的复制视图旋转角度，用于旁观模式使用
-	// UE_API FRotator GetReplicatedViewRotation() const;
+	UE_API FRotator GetReplicatedViewRotation() const;
 
 	// Sets the replicated view rotation, only valid on the server
 	// 设置复制视图的旋转角度，仅在服务器端有效 由控制器从PlayerTick中调用
-	// UE_API void SetReplicatedViewRotation(const FRotator& NewRotation);
+	UE_API void SetReplicatedViewRotation(const FRotator& NewRotation);
 
 
 private:
@@ -213,7 +213,7 @@ private:
 	 * PostInitializeComponents中绑定
 	 * 
 	 */
-	// UE_API void OnExperienceLoaded(const ULyraExperienceDefinition* CurrentExperience);
+	UE_API void OnExperienceLoaded(const ULyraExperienceDefinition* CurrentExperience);
 
 	
 protected:
@@ -254,13 +254,13 @@ private:
 	ELyraPlayerConnectionType MyPlayerConnectionType;
 
 	// 队伍发生改变的代理
-	// UPROPERTY()
-	// FOnLyraTeamIndexChangedDelegate OnTeamChangedDelegate;
+	UPROPERTY()
+	FOnLyraTeamIndexChangedDelegate OnTeamChangedDelegate;
 
 	
 	// 队伍ID
-	// UPROPERTY(ReplicatedUsing=OnRep_MyTeamID)
-	// FGenericTeamId MyTeamID;
+	UPROPERTY(ReplicatedUsing=OnRep_MyTeamID)
+	FGenericTeamId MyTeamID;
 
 	// 子战队ID
 	UPROPERTY(ReplicatedUsing=OnRep_MySquadID)
@@ -278,8 +278,8 @@ private:
 	
 private:
 	// 通知队伍发生了改变
-	// UFUNCTION()
-	// UE_API void OnRep_MyTeamID(FGenericTeamId OldTeamID);
+	UFUNCTION()
+	UE_API void OnRep_MyTeamID(FGenericTeamId OldTeamID);
 
 	// 暂无功能
 	UFUNCTION()
