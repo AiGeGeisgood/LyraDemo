@@ -57,10 +57,10 @@ const ULyraPawnData* ALyraGameMode::GetPawnDataForController(const AController* 
 		if (const ALyraPlayerState* LyraPS = InController->GetPlayerState<ALyraPlayerState>())
 		{
 
-			// if (const ULyraPawnData* PawnData = LyraPS->GetPawnData<ULyraPawnData>())
-			// {
-			// 	return PawnData;
-			// }
+			if (const ULyraPawnData* PawnData = LyraPS->GetPawnData<ULyraPawnData>())
+			{
+				return PawnData;
+			}
 		}
 	}
 

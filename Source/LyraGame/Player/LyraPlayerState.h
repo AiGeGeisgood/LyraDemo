@@ -110,7 +110,7 @@ public:
 	UE_API virtual void Reset() override;
 	
 	/** 当控制器的玩家状态首次进行复制时，会调用此方法。*/
-	// UE_API virtual void ClientInitialize(AController* C) override;
+	UE_API virtual void ClientInitialize(AController* C) override;
 
 	/** 复制需要保存在非活动玩家状态中的属性 */
 	UE_API virtual void CopyProperties(APlayerState* PlayerState) override;

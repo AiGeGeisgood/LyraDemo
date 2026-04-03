@@ -158,17 +158,17 @@ void ALyraPlayerState::Reset()
 	Super::Reset();
 }
 
-// void ALyraPlayerState::ClientInitialize(AController* C)
-// {
-// 	Super::ClientInitialize(C);
-// 	
-// 	if (ULyraPawnExtensionComponent* PawnExtComp = ULyraPawnExtensionComponent::FindPawnExtensionComponent(GetPawn()))
-// 	{
-// 		PawnExtComp->CheckDefaultInitialization();
-// 	}
-//
-// 	
-// }
+void ALyraPlayerState::ClientInitialize(AController* C)
+{
+	Super::ClientInitialize(C);
+	
+	// if (ULyraPawnExtensionComponent* PawnExtComp = ULyraPawnExtensionComponent::FindPawnExtensionComponent(GetPawn()))
+	// {
+	// 	PawnExtComp->CheckDefaultInitialization();
+	// }
+
+	
+}
 
 void ALyraPlayerState::CopyProperties(APlayerState* PlayerState)
 {
