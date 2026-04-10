@@ -65,7 +65,7 @@ void ALyraPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	SharedParams.Condition = ELifetimeCondition::COND_SkipOwner;
 	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, ReplicatedViewRotation, SharedParams);
 	
-	// DOREPLIFETIME(ThisClass, StatTags);	
+	DOREPLIFETIME(ThisClass, StatTags);	
 	
 	
 }
@@ -267,25 +267,25 @@ void ALyraPlayerState::SetSquadID(int32 NewSquadID)
 	
 }
 
-// void ALyraPlayerState::AddStatTagStack(FGameplayTag Tag, int32 StackCount)
-// {
-// 	StatTags.AddStack(Tag, StackCount);
-// }
-//
-// void ALyraPlayerState::RemoveStatTagStack(FGameplayTag Tag, int32 StackCount)
-// {
-// 	StatTags.RemoveStack(Tag, StackCount);
-// }
-//
-// int32 ALyraPlayerState::GetStatTagStackCount(FGameplayTag Tag) const
-// {
-// 	return StatTags.GetStackCount(Tag);
-// }
-//
-// bool ALyraPlayerState::HasStatTag(FGameplayTag Tag) const
-// {
-// 	return StatTags.ContainsTag(Tag);
-// }
+void ALyraPlayerState::AddStatTagStack(FGameplayTag Tag, int32 StackCount)
+{
+	StatTags.AddStack(Tag, StackCount);
+}
+
+void ALyraPlayerState::RemoveStatTagStack(FGameplayTag Tag, int32 StackCount)
+{
+	StatTags.RemoveStack(Tag, StackCount);
+}
+
+int32 ALyraPlayerState::GetStatTagStackCount(FGameplayTag Tag) const
+{
+	return StatTags.GetStackCount(Tag);
+}
+
+bool ALyraPlayerState::HasStatTag(FGameplayTag Tag) const
+{
+	return StatTags.ContainsTag(Tag);
+}
 
 FRotator ALyraPlayerState::GetReplicatedViewRotation() const
 {
