@@ -51,7 +51,7 @@ ALyraPlayerController::ALyraPlayerController(const FObjectInitializer& ObjectIni
 	: Super(ObjectInitializer)
 {
 	// 指定相机管理类
-	// PlayerCameraManagerClass = ALyraPlayerCameraManager::StaticClass();
+	PlayerCameraManagerClass = ALyraPlayerCameraManager::StaticClass();
 #if USING_CHEAT_MANAGER
 	// 指定作弊器的类
 	CheatClass = ULyraCheatManager::StaticClass();
@@ -74,102 +74,102 @@ ALyraHUD* ALyraPlayerController::GetLyraHUD() const
 	return CastChecked<ALyraHUD>(GetHUD(), ECastCheckedType::NullAllowed);
 }
 
-// bool ALyraPlayerController::TryToRecordClientReplay()
-// {
-// 	// See if we should record a replay
-// 	// 查看是否需要录制回放内容
-// 	if (ShouldRecordClientReplay())
-// 	{
-// 		if (ULyraReplaySubsystem* ReplaySubsystem = GetGameInstance()->GetSubsystem<ULyraReplaySubsystem>())
-// 		{
-// 			APlayerController* FirstLocalPlayerController = GetGameInstance()->GetFirstLocalPlayerController();
-// 			if (FirstLocalPlayerController == this)
-// 			{
-// 				// If this is the first player, update the spectator player for local replays and then record
-// 				// 如果这是第一个玩家，则为本地回放更新旁观者玩家信息，然后进行记录
-// 				if (ALyraGameState* GameState = Cast<ALyraGameState>(GetWorld()->GetGameState()))
-// 				{
-// 					GameState->SetRecorderPlayerState(PlayerState);
-//
-// 					//@XGTODO:现在我们还没有真实的开始记录回放
-// 					//ReplaySubsystem->RecordClientReplay(this);
-//
-// 					return true;
-// 				}
-//
-// 				
-// 			}
-// 			
-//
-// 			
-// 		}
-//
-// 		
-// 	}
-//
-//
-// 	
-// 	return false;
-// }
+bool ALyraPlayerController::TryToRecordClientReplay()
+{
+	// See if we should record a replay
+	// 查看是否需要录制回放内容
+	if (ShouldRecordClientReplay())
+	{
+		if (ULyraReplaySubsystem* ReplaySubsystem = GetGameInstance()->GetSubsystem<ULyraReplaySubsystem>())
+		{
+			APlayerController* FirstLocalPlayerController = GetGameInstance()->GetFirstLocalPlayerController();
+			if (FirstLocalPlayerController == this)
+			{
+				// If this is the first player, update the spectator player for local replays and then record
+				// 如果这是第一个玩家，则为本地回放更新旁观者玩家信息，然后进行记录
+				if (ALyraGameState* GameState = Cast<ALyraGameState>(GetWorld()->GetGameState()))
+				{
+					GameState->SetRecorderPlayerState(PlayerState);
 
-// bool ALyraPlayerController::ShouldRecordClientReplay()
-// {
-// 	UWorld* World = GetWorld();
-// 	UGameInstance* GameInstance = GetGameInstance();
-// 	if (GameInstance != nullptr &&
-// 		World != nullptr &&
-// 		!World->IsPlayingReplay() &&
-// 		!World->IsRecordingClientReplay() &&
-// 		NM_DedicatedServer != GetNetMode() &&
-// 		IsLocalPlayerController())
-// 	{
-// 		// 游戏实例不能为空
-// 		// 世界不能为空
-// 		// 不能正在播放回放
-// 		// 不能正在记录录像
-// 		// 不能是专属服务器
-// 		// 必须是本地控制的玩家控制器
-//
-// 		FString DefaultMap = UGameMapsSettings::GetGameDefaultMap();
-// 		FString CurrentMap = World->URL.Map;
-//
-// #if WITH_EDITOR
-// 		CurrentMap = UWorld::StripPIEPrefixFromPackageName(CurrentMap, World->StreamingLevelsPrefix);
-// #endif
-// 		if (CurrentMap == DefaultMap)
-// 		{
-// 			// Never record demos on the default frontend map, this could be replaced with a better check for being in the main menu
-// 			// 请勿在默认的前端地图上录制演示内容，这一操作可以改为采用更有效的检查方式，以确认是否处于主菜单界面。
-// 			return false;
-// 		}
-//
-// 		if (UReplaySubsystem* ReplaySubsystem = GameInstance->GetSubsystem<UReplaySubsystem>())
-// 		{
-// 			if (ReplaySubsystem->IsRecording() || ReplaySubsystem->IsPlaying())
-// 			{
-// 				// Only one at a time
-// 				// 一次只能一个
-// 				return false;
-// 			}
-// 		}
-//
-// 		// If this is possible, now check the settings
-// 		// 如果可行的话，现在就检查一下设置吧
-// 		if (const ULyraLocalPlayer* LyraLocalPlayer = Cast<ULyraLocalPlayer>(GetLocalPlayer()))
-// 		{
-//
-// 			//004:从本地游戏设置从读取是否自动记录回放功能
-// 			if (LyraLocalPlayer->GetLocalSettings()->ShouldAutoRecordReplays())
-// 			{
-// 				return true;
-// 			}
-// 			
-// 		}
-// 		
-// 	}
-// 	return false;
-// 	
-// }
+					//@XGTODO:现在我们还没有真实的开始记录回放
+					//ReplaySubsystem->RecordClientReplay(this);
+
+					return true;
+				}
+
+				
+			}
+			
+
+			
+		}
+
+		
+	}
+
+
+	
+	return false;
+}
+
+bool ALyraPlayerController::ShouldRecordClientReplay()
+{
+	UWorld* World = GetWorld();
+	UGameInstance* GameInstance = GetGameInstance();
+	if (GameInstance != nullptr &&
+		World != nullptr &&
+		!World->IsPlayingReplay() &&
+		!World->IsRecordingClientReplay() &&
+		NM_DedicatedServer != GetNetMode() &&
+		IsLocalPlayerController())
+	{
+		// 游戏实例不能为空
+		// 世界不能为空
+		// 不能正在播放回放
+		// 不能正在记录录像
+		// 不能是专属服务器
+		// 必须是本地控制的玩家控制器
+
+		FString DefaultMap = UGameMapsSettings::GetGameDefaultMap();
+		FString CurrentMap = World->URL.Map;
+
+#if WITH_EDITOR
+		CurrentMap = UWorld::StripPIEPrefixFromPackageName(CurrentMap, World->StreamingLevelsPrefix);
+#endif
+		if (CurrentMap == DefaultMap)
+		{
+			// Never record demos on the default frontend map, this could be replaced with a better check for being in the main menu
+			// 请勿在默认的前端地图上录制演示内容，这一操作可以改为采用更有效的检查方式，以确认是否处于主菜单界面。
+			return false;
+		}
+
+		if (UReplaySubsystem* ReplaySubsystem = GameInstance->GetSubsystem<UReplaySubsystem>())
+		{
+			if (ReplaySubsystem->IsRecording() || ReplaySubsystem->IsPlaying())
+			{
+				// Only one at a time
+				// 一次只能一个
+				return false;
+			}
+		}
+
+		// If this is possible, now check the settings
+		// 如果可行的话，现在就检查一下设置吧
+		if (const ULyraLocalPlayer* LyraLocalPlayer = Cast<ULyraLocalPlayer>(GetLocalPlayer()))
+		{
+
+			//004:从本地游戏设置从读取是否自动记录回放功能
+			// if (LyraLocalPlayer->GetLocalSettings()->ShouldAutoRecordReplays())
+			// {
+			// 	return true;
+			// }
+			
+		}
+		
+	}
+	return false;
+	
+}
 
 void ALyraPlayerController::ServerCheat_Implementation(const FString& Msg)
 {
@@ -439,22 +439,22 @@ void ALyraPlayerController::PlayerTick(float DeltaTime)
 	}
 }
 
-// void ALyraPlayerController::SetPlayer(UPlayer* InPlayer)
-// {
-// 	Super::SetPlayer(InPlayer);
-//
-// 	if (const ULyraLocalPlayer* LyraLocalPlayer = Cast<ULyraLocalPlayer>(InPlayer))
-// 	{
-//
-// 		ULyraSettingsShared* UserSettings = LyraLocalPlayer->GetSharedSettings();
-// 		UserSettings->OnSettingChanged.AddUObject(this, &ThisClass::OnSettingsChanged);
-// 				
-// 		OnSettingsChanged(UserSettings);
-// 	}
-//
-//
-// 	
-// }
+void ALyraPlayerController::SetPlayer(UPlayer* InPlayer)
+{
+	Super::SetPlayer(InPlayer);
+
+	if (const ULyraLocalPlayer* LyraLocalPlayer = Cast<ULyraLocalPlayer>(InPlayer))
+	{
+
+		// ULyraSettingsShared* UserSettings = LyraLocalPlayer->GetSharedSettings();
+		// UserSettings->OnSettingChanged.AddUObject(this, &ThisClass::OnSettingsChanged);
+				
+		// OnSettingsChanged(UserSettings);
+	}
+
+
+	
+}
 
 void ALyraPlayerController::AddCheats(bool bForce)
 {
@@ -681,11 +681,11 @@ void ALyraPlayerController::BroadcastOnPlayerStateChanged()
 	LastSeenPlayerState = PlayerState;
 }
 
-// void ALyraPlayerController::OnSettingsChanged(ULyraSettingsShared* InSettings)
-// {
-//
-// 	bForceFeedbackEnabled = InSettings->GetForceFeedbackEnabled();
-// }
+void ALyraPlayerController::OnSettingsChanged(ULyraSettingsShared* InSettings)
+{
+
+	// bForceFeedbackEnabled = InSettings->GetForceFeedbackEnabled();
+}
 
 void ALyraPlayerController::OnStartAutoRun()
 {
@@ -704,83 +704,83 @@ void ALyraPlayerController::OnEndAutoRun()
 		K2_OnEndAutoRun();
 	}
 }
-// //////////////////////////////////////////////////////////////////////
-// // ALyraReplayPlayerController
-//
-//
-// void ALyraReplayPlayerController::Tick(float DeltaSeconds)
-// {
-// 	Super::Tick(DeltaSeconds);
-//
-// 	// The state may go invalid at any time due to scrubbing during a replay
-// 	// 由于在重放过程中进行的数据清除操作，该状态可能会随时失效。
-// 	if (!IsValid(FollowedPlayerState))
-// 	{
-// 		UWorld* World = GetWorld();
-// 		// Listen for changes for both recording and playback
-// 		// 监听录制和播放过程中的任何变化
-// 		if (ALyraGameState* GameState = Cast<ALyraGameState>(World->GetGameState()))
-// 		{
-// 			if (!GameState->OnRecorderPlayerStateChangedEvent.IsBoundToObject(this))
-// 			{
-// 				GameState->OnRecorderPlayerStateChangedEvent.AddUObject(this, &ThisClass::RecorderPlayerStateUpdated);
-// 				
-// 			}
-// 			
-// 			if (APlayerState* RecorderState = GameState->GetRecorderPlayerState())
-// 			{
-// 				RecorderPlayerStateUpdated(RecorderState);
-// 			}
-//
-// 			
-// 		}
-// 		
-//
-//
-// 		
-// 	}
-//
-// 	
-// }
-//
-// void ALyraReplayPlayerController::SmoothTargetViewRotation(APawn* TargetPawn, float DeltaSeconds)
-// {
-// 	// Default behavior is to interpolate to TargetViewRotation which is set from APlayerController::TickActor but it's not very smooth
-// 	// 默认情况下，会将值插值到“目标视图旋转”这一变量中，该变量是由 APlayerController::TickActor 方法设置的，但其过渡效果并不十分流畅。
-// 	Super::SmoothTargetViewRotation(TargetPawn, DeltaSeconds);
-// }
-//
-// bool ALyraReplayPlayerController::ShouldRecordClientReplay()
-// {
-// 	return false;
-// }
-//
-// void ALyraReplayPlayerController::RecorderPlayerStateUpdated(APlayerState* NewRecorderPlayerState)
-// {
-// 	if (NewRecorderPlayerState)
-// 	{
-// 		FollowedPlayerState = NewRecorderPlayerState;
-//
-// 		// Bind to when pawn changes and call now
-// 		// 当兵种发生变化时绑定此操作，并立即执行
-// 		NewRecorderPlayerState->OnPawnSet.AddUniqueDynamic(this, &ALyraReplayPlayerController::OnPlayerStatePawnSet);
-//
-// 		OnPlayerStatePawnSet(NewRecorderPlayerState, NewRecorderPlayerState->GetPawn(), nullptr);
-//
-//
-// 		
-// 	}
-//
-// 	
-// }
-//  
-// void ALyraReplayPlayerController::OnPlayerStatePawnSet(APlayerState* ChangedPlayerState, APawn* NewPlayerPawn,
-// 	APawn* OldPlayerPawn)
-// {
-// 	if (ChangedPlayerState == FollowedPlayerState)
-// 	{
-// 		SetViewTarget(NewPlayerPawn);
-// 	}
-//
-// 	
-// }
+//////////////////////////////////////////////////////////////////////
+// ALyraReplayPlayerController
+
+
+void ALyraReplayPlayerController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	// The state may go invalid at any time due to scrubbing during a replay
+	// 由于在重放过程中进行的数据清除操作，该状态可能会随时失效。
+	if (!IsValid(FollowedPlayerState))
+	{
+		UWorld* World = GetWorld();
+		// Listen for changes for both recording and playback
+		// 监听录制和播放过程中的任何变化
+		if (ALyraGameState* GameState = Cast<ALyraGameState>(World->GetGameState()))
+		{
+			if (!GameState->OnRecorderPlayerStateChangedEvent.IsBoundToObject(this))
+			{
+				GameState->OnRecorderPlayerStateChangedEvent.AddUObject(this, &ThisClass::RecorderPlayerStateUpdated);
+				
+			}
+			
+			if (APlayerState* RecorderState = GameState->GetRecorderPlayerState())
+			{
+				RecorderPlayerStateUpdated(RecorderState);
+			}
+
+			
+		}
+		
+
+
+		
+	}
+
+	
+}
+
+void ALyraReplayPlayerController::SmoothTargetViewRotation(APawn* TargetPawn, float DeltaSeconds)
+{
+	// Default behavior is to interpolate to TargetViewRotation which is set from APlayerController::TickActor but it's not very smooth
+	// 默认情况下，会将值插值到“目标视图旋转”这一变量中，该变量是由 APlayerController::TickActor 方法设置的，但其过渡效果并不十分流畅。
+	Super::SmoothTargetViewRotation(TargetPawn, DeltaSeconds);
+}
+
+bool ALyraReplayPlayerController::ShouldRecordClientReplay()
+{
+	return false;
+}
+
+void ALyraReplayPlayerController::RecorderPlayerStateUpdated(APlayerState* NewRecorderPlayerState)
+{
+	if (NewRecorderPlayerState)
+	{
+		FollowedPlayerState = NewRecorderPlayerState;
+
+		// Bind to when pawn changes and call now
+		// 当兵种发生变化时绑定此操作，并立即执行
+		NewRecorderPlayerState->OnPawnSet.AddUniqueDynamic(this, &ALyraReplayPlayerController::OnPlayerStatePawnSet);
+
+		OnPlayerStatePawnSet(NewRecorderPlayerState, NewRecorderPlayerState->GetPawn(), nullptr);
+
+
+		
+	}
+
+	
+}
+ 
+void ALyraReplayPlayerController::OnPlayerStatePawnSet(APlayerState* ChangedPlayerState, APawn* NewPlayerPawn,
+	APawn* OldPlayerPawn)
+{
+	if (ChangedPlayerState == FollowedPlayerState)
+	{
+		SetViewTarget(NewPlayerPawn);
+	}
+
+	
+}

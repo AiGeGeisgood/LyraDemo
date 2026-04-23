@@ -63,12 +63,12 @@ public:
 
 	// Call from game state logic to start recording an automatic client replay if ShouldRecordClientReplay returns true
 	// 在游戏状态逻辑中，如果“应录制客户端回放”这一条件返回为真，则启动自动录制客户端回放的过程
-	// UFUNCTION(BlueprintCallable, Category = "Lyra|PlayerController")
-	// UE_API bool TryToRecordClientReplay();
+	UFUNCTION(BlueprintCallable, Category = "Lyra|PlayerController")
+	UE_API bool TryToRecordClientReplay();
 
 	// Call to see if we should record a replay, subclasses could change this
 	// 调用此方法以确定是否需要录制回放，子类可以对此进行修改
-	// UE_API virtual bool ShouldRecordClientReplay();
+	UE_API virtual bool ShouldRecordClientReplay();
 
 	// Run a cheat command on the server.
 	// 在服务器上运行作弊指令。
@@ -133,7 +133,7 @@ public:
 	UE_API virtual void PlayerTick(float DeltaTime) override;
 
 	// 绑定本地玩家类的变更,从而响应设置的更改.
-	// UE_API virtual void SetPlayer(UPlayer* InPlayer) override;
+	UE_API virtual void SetPlayer(UPlayer* InPlayer) override;
 
 	// 是否开启作弊
 	UE_API virtual void AddCheats(bool bForce) override;
@@ -222,7 +222,7 @@ protected:
 	//~End of APlayerController interface
 	
 	// 用于绑定到本地玩家上面的设置,实现读取是否开启力反馈
-	// UE_API void OnSettingsChanged(ULyraSettingsShared* InSettings);
+	UE_API void OnSettingsChanged(ULyraSettingsShared* InSettings);
 
 
 	
@@ -255,9 +255,9 @@ class ALyraReplayPlayerController : public ALyraPlayerController
 {
 	GENERATED_BODY()
 
-	// virtual void Tick(float DeltaSeconds) override;
-	// virtual void SmoothTargetViewRotation(APawn* TargetPawn, float DeltaSeconds) override;
-	// virtual bool ShouldRecordClientReplay() override;
+	virtual void Tick(float DeltaSeconds) override;
+	virtual void SmoothTargetViewRotation(APawn* TargetPawn, float DeltaSeconds) override;
+	virtual bool ShouldRecordClientReplay() override;
 
 	// Callback for when the game state's RecorderPlayerState gets replicated during replay playback
 	// 当在回放过程中游戏状态的“记录玩家状态”被复制时的回调函数
@@ -265,8 +265,8 @@ class ALyraReplayPlayerController : public ALyraPlayerController
 
 	// Callback for when the followed player state changes pawn
 	// 当关注的玩家状态发生变化时（例如角色状态改变）的回调函数
-	// UFUNCTION()
-	// void OnPlayerStatePawnSet(APlayerState* ChangedPlayerState, APawn* NewPlayerPawn, APawn* OldPlayerPawn);
+	UFUNCTION()
+	void OnPlayerStatePawnSet(APlayerState* ChangedPlayerState, APawn* NewPlayerPawn, APawn* OldPlayerPawn);
 	
 	// The player state we are currently following */
 	// 我们当前所遵循的玩家状态 */
