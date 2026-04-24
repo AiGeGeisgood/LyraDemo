@@ -105,11 +105,11 @@ ULyraGameInstance::ULyraGameInstance(const FObjectInitializer& ObjectInitializer
 {
 	
 }
-// ALyraPlayerController* ULyraGameInstance::GetPrimaryPlayerController() const
-// {
-// 	return Cast<ALyraPlayerController>(Super::GetPrimaryPlayerController(false));
-//
-// }
+ALyraPlayerController* ULyraGameInstance::GetPrimaryPlayerController() const
+{
+	return Cast<ALyraPlayerController>(Super::GetPrimaryPlayerController(false));
+
+}
 
 bool ULyraGameInstance::CanJoinRequestedSession() const
 {
@@ -133,19 +133,19 @@ void ULyraGameInstance::HandlerUserInitialized(const UCommonUserInfo* UserInfo, 
 
 	// If login succeeded, tell the local player to load their settings
 	// 如果登录成功，就告知本地玩家加载他们的设置
-	// if (bSuccess && ensure(UserInfo))
-	// {
-	//
-	// 	ULyraLocalPlayer* LocalPlayer = Cast<ULyraLocalPlayer>(GetLocalPlayerByIndex(UserInfo->LocalPlayerIndex));
-	//
-	// 	// There will not be a local player attached to the dedicated server user
-	// 	// 专用服务器用户不会关联本地玩家。
-	// 	if (LocalPlayer)
-	// 	{
-	// 		
-	// 		LocalPlayer->LoadSharedSettingsFromDisk();
-	// 	}
-	// }
+	if (bSuccess && ensure(UserInfo))
+	{
+	
+		ULyraLocalPlayer* LocalPlayer = Cast<ULyraLocalPlayer>(GetLocalPlayerByIndex(UserInfo->LocalPlayerIndex));
+	
+		// There will not be a local player attached to the dedicated server user
+		// 专用服务器用户不会关联本地玩家。
+		if (LocalPlayer)
+		{
+			
+			LocalPlayer->LoadSharedSettingsFromDisk();
+		}
+	}
 }
 
 void ULyraGameInstance::ReceivedNetworkEncryptionToken(const FString& EncryptionToken,

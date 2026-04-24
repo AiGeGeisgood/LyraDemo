@@ -92,7 +92,7 @@ bool ALyraPlayerController::TryToRecordClientReplay()
 					GameState->SetRecorderPlayerState(PlayerState);
 
 					//@XGTODO:现在我们还没有真实的开始记录回放
-					//ReplaySubsystem->RecordClientReplay(this);
+					// ReplaySubsystem->RecordClientReplay(this);
 
 					return true;
 				}
@@ -159,10 +159,10 @@ bool ALyraPlayerController::ShouldRecordClientReplay()
 		{
 
 			//004:从本地游戏设置从读取是否自动记录回放功能
-			// if (LyraLocalPlayer->GetLocalSettings()->ShouldAutoRecordReplays())
-			// {
-			// 	return true;
-			// }
+			if (LyraLocalPlayer->GetLocalSettings()->ShouldAutoRecordReplays())
+			{
+				return true;
+			}
 			
 		}
 		
@@ -446,10 +446,10 @@ void ALyraPlayerController::SetPlayer(UPlayer* InPlayer)
 	if (const ULyraLocalPlayer* LyraLocalPlayer = Cast<ULyraLocalPlayer>(InPlayer))
 	{
 
-		// ULyraSettingsShared* UserSettings = LyraLocalPlayer->GetSharedSettings();
-		// UserSettings->OnSettingChanged.AddUObject(this, &ThisClass::OnSettingsChanged);
+		ULyraSettingsShared* UserSettings = LyraLocalPlayer->GetSharedSettings();
+		UserSettings->OnSettingChanged.AddUObject(this, &ThisClass::OnSettingsChanged);
 				
-		// OnSettingsChanged(UserSettings);
+		OnSettingsChanged(UserSettings);
 	}
 
 
@@ -684,7 +684,7 @@ void ALyraPlayerController::BroadcastOnPlayerStateChanged()
 void ALyraPlayerController::OnSettingsChanged(ULyraSettingsShared* InSettings)
 {
 
-	// bForceFeedbackEnabled = InSettings->GetForceFeedbackEnabled();
+	bForceFeedbackEnabled = InSettings->GetForceFeedbackEnabled();
 }
 
 void ALyraPlayerController::OnStartAutoRun()

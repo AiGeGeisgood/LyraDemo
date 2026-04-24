@@ -97,12 +97,12 @@ public:
 // 	// 根据单一的整体质量标准一次性更改所有可扩展性设置
 // 	// @参数 值 0：低，1：中等，2：高，3：史诗级，4：电影级
 // 	virtual void SetOverallScalabilityLevel(int32 Value) override;
-// 	
-// 	//~End of UGameUserSettings interface
-//
-// 	// 这个方法在ExperienceManagerComponent里面体验完全加载后调用
-// 	void OnExperienceLoaded();
-// 	
+	
+	//~End of UGameUserSettings interface
+
+	// 这个方法在ExperienceManagerComponent里面体验完全加载后调用
+	void OnExperienceLoaded();
+	
 // 	// 热更完成之后 主动在HotFixManager中调用 重新加载可能发生的变动设置
 // 	void OnHotfixDeviceProfileApplied();
 // 	
@@ -459,19 +459,19 @@ public:
 //
 //
 // 	
-// 	//////////////////////////////////////////////////////////////////
-// 	// Audio - Volume
-// 	// 音量 - 音量调节
-// 	
-// public:
-// 	
-// 	// 定义音频设备切换的代理
-// 	DECLARE_EVENT_OneParam(ULyraSettingsLocal, FAudioDeviceChanged, const FString& /*DeviceId*/);
-//
-// 	// 音频设备变换的代理
-// 	FAudioDeviceChanged OnAudioOutputDeviceChanged;
-//
-// public:
+	//////////////////////////////////////////////////////////////////
+	// Audio - Volume
+	// 音量 - 音量调节
+	
+public:
+	
+	// 定义音频设备切换的代理
+	DECLARE_EVENT_OneParam(ULyraSettingsLocal, FAudioDeviceChanged, const FString& /*DeviceId*/);
+
+	// 音频设备变换的代理
+	FAudioDeviceChanged OnAudioOutputDeviceChanged;
+
+public:
 // 	/** Returns if we're using headphone mode (HRTF) **/
 // 	/** 返回我们是否处于耳机模式（头部相关传递函数）的状态 **/
 // 	UFUNCTION()
@@ -727,17 +727,17 @@ public:
 // 	
 //
 // 	
-// 	// Replays
-// 	// 回放
-// public:
-// 	// 是否自动记录回放
-// 	UFUNCTION()
-// 	bool ShouldAutoRecordReplays() const { return bShouldAutoRecordReplays; }
-//
-// 	// 设置是否自动记录回放
-// 	UFUNCTION()
-// 	void SetShouldAutoRecordReplays(bool bEnabled) { bShouldAutoRecordReplays = bEnabled; }
-//
+	// Replays
+	// 回放
+public:
+	// 是否自动记录回放
+	UFUNCTION()
+	bool ShouldAutoRecordReplays() const { return bShouldAutoRecordReplays; }
+
+	// 设置是否自动记录回放
+	UFUNCTION()
+	void SetShouldAutoRecordReplays(bool bEnabled) { bShouldAutoRecordReplays = bEnabled; }
+
 // 	// 获取保持的回放数量
 // 	UFUNCTION()
 // 	int32 GetNumberOfReplaysToKeep() const { return NumberOfReplaysToKeep; }
@@ -749,10 +749,10 @@ public:
 // 	
 //
 // 	
-// private:
-// 	// 是否应该自动记录回放
-// 	UPROPERTY(Config)
-// 	bool bShouldAutoRecordReplays = false;
+private:
+	// 是否应该自动记录回放
+	UPROPERTY(Config)
+	bool bShouldAutoRecordReplays = false;
 //
 // 	// 回放的保持数量
 // 	UPROPERTY(Config)

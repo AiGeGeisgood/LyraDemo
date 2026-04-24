@@ -801,12 +801,12 @@ ULyraSettingsLocal* ULyraSettingsLocal::Get()
 // 	
 // 	
 // }
-//
-// void ULyraSettingsLocal::OnExperienceLoaded()
-// {
-// 	ReapplyThingsDueToPossibleDeviceProfileChange();
-// }
-//
+
+void ULyraSettingsLocal::OnExperienceLoaded()
+{
+	// ReapplyThingsDueToPossibleDeviceProfileChange();
+}
+
 // void ULyraSettingsLocal::OnHotfixDeviceProfileApplied()
 // {
 // 	ReapplyThingsDueToPossibleDeviceProfileChange();

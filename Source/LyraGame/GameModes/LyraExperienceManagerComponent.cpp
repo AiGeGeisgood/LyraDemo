@@ -657,9 +657,9 @@ void ULyraExperienceManagerComponent::OnExperienceFullLoadCompleted()
 	// Apply any necessary scalability settings
 	// 应用任何必要的扩展性设置
 	
-// #if !UE_SERVER
-// 	ULyraSettingsLocal::Get()->OnExperienceLoaded();
-// #endif
+#if !UE_SERVER
+	ULyraSettingsLocal::Get()->OnExperienceLoaded();
+#endif
 	
 }
 
